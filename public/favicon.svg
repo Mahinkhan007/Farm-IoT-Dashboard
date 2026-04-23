@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- MMU Blue rounded background -->
+  <rect width="64" height="64" rx="14" fill="#0052A5"/>
+
+  <!-- MMU signature red circle — top-left brand mark -->
+  <circle cx="11" cy="11" r="5.5" fill="#CC0000"/>
+
+  <!-- Bold white M — stroke-based, fills lower portion -->
+  <polyline
+    points="7,60 7,30 32,50 57,30 57,60"
+    stroke="white"
+    stroke-width="9"
+    fill="none"
+    stroke-linecap="square"
+    stroke-linejoin="miter"
+  />
+
+  <!-- Green wheat plant growing from top-center -->
+  <!-- Stem -->
+  <line x1="32" y1="28" x2="32" y2="7" stroke="#2d6a1f" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- Left leaf -->
+  <path d="M32,22 C28,17 23,13 25,8 C29,11 32,17 32,22" fill="#4a8c2a"/>
+  <!-- Right leaf -->
+  <path d="M32,17 C36,12 41,8 39,4 C35,7 32,13 32,17" fill="#5da832"/>
+  <!-- Top tip leaf -->
+  <path d="M29,12 Q32,3 35,12 Q33,7 29,12" fill="#72c23a"/>
+</svg>

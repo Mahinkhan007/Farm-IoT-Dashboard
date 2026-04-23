@@ -1,0 +1,23 @@
+/*
+  # Prevent browsers from sniffing the MIME type
+  X-Content-Type-Options: nosniff
+
+  # Block clickjacking — your pages cannot be embedded in iframes on other sites
+  X-Frame-Options: DENY
+
+  # Disable referrer leakage when navigating away
+  Referrer-Policy: strict-origin-when-cross-origin
+
+  # Enforce HTTPS for 1 year (set by Netlify automatically, this reinforces it)
+  Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+
+  # Permissions policy — disable camera/mic/geolocation access
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+
+  # Content Security Policy
+  # - default: only allow content from your own domain
+  # - script: self + unpkg (Vite chunks) — tighten further after launch if needed
+  # - connect: allow Supabase API calls
+  # - img: self + data: URIs (for base64 images)
+  # - style: self + unsafe-inline needed for Vite CSS-in-JS
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://*.supabase.co wss://*.supabase.co; img-src 'self' data: blob: https://*.googleapis.com https://*.supabase.co; frame-ancestors 'none';
