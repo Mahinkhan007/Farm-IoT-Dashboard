@@ -8,8 +8,8 @@ const char* ssid     = "HUAWEI";
 const char* password = "farm2025";
 
 // ─── NEW Supabase — direct REST API (no edge function needed) ──────────────────
-const char* SUPABASE_URL     = "https://fmlikxwuvqdypbhmwvou.supabase.co/rest/v1/sensor_readings";
-const char* SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZtbGlreHd1dnFkeXBiaG13dm91Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU1NzAwODIsImV4cCI6MjA5MTE0NjA4Mn0.RSHUr34uel6js-T2QNLQ8Rw8dXuUB9XFkRmLAQstq1A";
+const char* VITE_SUPABASE_URL = "REPLACE_WITH_ENV";
+const char* VITE_SUPABASE_ANON_KEY = "REPLACE_WITH_ENV";
 
 // ─── Node identity — CHANGE THESE for each ESP32 before flashing ───────────────
 //
