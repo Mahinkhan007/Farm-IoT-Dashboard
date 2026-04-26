@@ -567,7 +567,7 @@
   background: linear-gradient(135deg, var(--mmu-blue) 0%, var(--mmu-blue-light) 100%);
   color: white;
   padding: 12px 14px;
-  text-align: left;
+  text-align: center;
   font-weight: 700;
   font-size: 0.82rem;
   letter-spacing: 0.04em;
@@ -582,7 +582,7 @@
   padding: 6px 14px;
   font-size: 0.74rem;
   font-weight: 600;
-  text-align: left;
+  text-align: center;
   letter-spacing: 0.05em;
   text-transform: uppercase;
 }

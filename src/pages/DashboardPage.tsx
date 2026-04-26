@@ -20,6 +20,7 @@ interface SensorNode {
   label: string;
   zone: string;
   status: NodeStatus;
+  temperature: SensorReading[];
   humidity: SensorReading[];
   soilMoisture: SensorReading[];
   lastUpdated: string;
@@ -38,6 +39,12 @@ interface UserProfile {
 const ALL_LANDS = ['Batang Kali', 'Saba', 'MMU Vanilla Plantation'];
 
 // ─── Status Helpers ───────────────────────────────────────────────────────────
+
+const getTemperatureStatus = (v: number): SensorStatus => {
+  if (v >= 22 && v <= 35) return 'good';
+  if (v >= 18 && v <= 40) return 'warning';
+  return 'alert';
+};
 
 const getHumidityStatus = (v: number): SensorStatus => {
   if (v >= 50 && v <= 80) return 'good';
@@ -70,6 +77,10 @@ const MOCK_DATA: Record<string, SensorNode[]> = {
   'Batang Kali': [
     {
       nodeId: 1, label: 'ESP32-01', zone: 'Zone A', status: 'Online',
+      temperature: [
+        { id: 'T1', value: 29.4, unit: '°C', status: 'good' },
+        { id: 'T2', value: 30.1, unit: '°C', status: 'good' },
+      ],
       humidity: [
         { id: 'H1', value: 72.3, unit: '%', status: 'good' },
         { id: 'H2', value: 68.1, unit: '%', status: 'good' },
@@ -84,6 +95,10 @@ const MOCK_DATA: Record<string, SensorNode[]> = {
     },
     {
       nodeId: 2, label: 'ESP32-02', zone: 'Zone B', status: 'Online',
+      temperature: [
+        { id: 'T1', value: 28.7, unit: '°C', status: 'good' },
+        { id: 'T2', value: 31.2, unit: '°C', status: 'good' },
+      ],
       humidity: [
         { id: 'H1', value: 65.8, unit: '%', status: 'good' },
         { id: 'H2', value: 71.2, unit: '%', status: 'good' },
@@ -98,6 +113,10 @@ const MOCK_DATA: Record<string, SensorNode[]> = {
     },
     {
       nodeId: 3, label: 'ESP32-03', zone: 'Zone C', status: 'Warning',
+      temperature: [
+        { id: 'T1', value: 36.8, unit: '°C', status: 'warning' },
+        { id: 'T2', value: 37.3, unit: '°C', status: 'warning' },
+      ],
       humidity: [
         { id: 'H1', value: 88.5, unit: '%', status: 'warning' },
         { id: 'H2', value: 84.1, unit: '%', status: 'warning' },
@@ -112,6 +131,10 @@ const MOCK_DATA: Record<string, SensorNode[]> = {
     },
     {
       nodeId: 4, label: 'ESP32-04', zone: 'Zone D', status: 'Online',
+      temperature: [
+        { id: 'T1', value: 30.5, unit: '°C', status: 'good' },
+        { id: 'T2', value: 29.8, unit: '°C', status: 'good' },
+      ],
       humidity: [
         { id: 'H1', value: 61.4, unit: '%', status: 'good' },
         { id: 'H2', value: 59.8, unit: '%', status: 'good' },
@@ -126,6 +149,10 @@ const MOCK_DATA: Record<string, SensorNode[]> = {
     },
     {
       nodeId: 5, label: 'ESP32-05', zone: 'Zone E', status: 'Online',
+      temperature: [
+        { id: 'T1', value: 27.9, unit: '°C', status: 'good' },
+        { id: 'T2', value: 28.6, unit: '°C', status: 'good' },
+      ],
       humidity: [
         { id: 'H1', value: 74.6, unit: '%', status: 'good' },
         { id: 'H2', value: 70.3, unit: '%', status: 'good' },
@@ -140,6 +167,10 @@ const MOCK_DATA: Record<string, SensorNode[]> = {
     },
     {
       nodeId: 6, label: 'ESP32-06', zone: 'Zone F', status: 'Offline',
+      temperature: [
+        { id: 'T1', value: 0, unit: '°C', status: 'alert' },
+        { id: 'T2', value: 0, unit: '°C', status: 'alert' },
+      ],
       humidity: [
         { id: 'H1', value: 0, unit: '%', status: 'alert' },
         { id: 'H2', value: 0, unit: '%', status: 'alert' },
@@ -156,6 +187,10 @@ const MOCK_DATA: Record<string, SensorNode[]> = {
   'Saba': [
     {
       nodeId: 1, label: 'ESP32-01', zone: 'Zone A', status: 'Online',
+      temperature: [
+        { id: 'T1', value: 31.2, unit: '°C', status: 'good' },
+        { id: 'T2', value: 30.7, unit: '°C', status: 'good' },
+      ],
       humidity: [
         { id: 'H1', value: 78.4, unit: '%', status: 'good' },
         { id: 'H2', value: 75.9, unit: '%', status: 'good' },
@@ -170,6 +205,10 @@ const MOCK_DATA: Record<string, SensorNode[]> = {
     },
     {
       nodeId: 2, label: 'ESP32-02', zone: 'Zone B', status: 'Online',
+      temperature: [
+        { id: 'T1', value: 29.3, unit: '°C', status: 'good' },
+        { id: 'T2', value: 28.9, unit: '°C', status: 'good' },
+      ],
       humidity: [
         { id: 'H1', value: 69.2, unit: '%', status: 'good' },
         { id: 'H2', value: 73.5, unit: '%', status: 'good' },
@@ -184,6 +223,10 @@ const MOCK_DATA: Record<string, SensorNode[]> = {
     },
     {
       nodeId: 3, label: 'ESP32-03', zone: 'Zone C', status: 'Online',
+      temperature: [
+        { id: 'T1', value: 32.1, unit: '°C', status: 'good' },
+        { id: 'T2', value: 31.6, unit: '°C', status: 'good' },
+      ],
       humidity: [
         { id: 'H1', value: 64.7, unit: '%', status: 'good' },
         { id: 'H2', value: 67.3, unit: '%', status: 'good' },
@@ -198,6 +241,10 @@ const MOCK_DATA: Record<string, SensorNode[]> = {
     },
     {
       nodeId: 4, label: 'ESP32-04', zone: 'Zone D', status: 'Warning',
+      temperature: [
+        { id: 'T1', value: 37.4, unit: '°C', status: 'warning' },
+        { id: 'T2', value: 38.1, unit: '°C', status: 'warning' },
+      ],
       humidity: [
         { id: 'H1', value: 85.6, unit: '%', status: 'warning' },
         { id: 'H2', value: 87.2, unit: '%', status: 'warning' },
@@ -212,6 +259,10 @@ const MOCK_DATA: Record<string, SensorNode[]> = {
     },
     {
       nodeId: 5, label: 'ESP32-05', zone: 'Zone E', status: 'Online',
+      temperature: [
+        { id: 'T1', value: 28.4, unit: '°C', status: 'good' },
+        { id: 'T2', value: 29.7, unit: '°C', status: 'good' },
+      ],
       humidity: [
         { id: 'H1', value: 72.8, unit: '%', status: 'good' },
         { id: 'H2', value: 69.4, unit: '%', status: 'good' },
@@ -226,6 +277,10 @@ const MOCK_DATA: Record<string, SensorNode[]> = {
     },
     {
       nodeId: 6, label: 'ESP32-06', zone: 'Zone F', status: 'Online',
+      temperature: [
+        { id: 'T1', value: 30.9, unit: '°C', status: 'good' },
+        { id: 'T2', value: 29.4, unit: '°C', status: 'good' },
+      ],
       humidity: [
         { id: 'H1', value: 67.1, unit: '%', status: 'good' },
         { id: 'H2', value: 71.8, unit: '%', status: 'good' },
@@ -242,6 +297,10 @@ const MOCK_DATA: Record<string, SensorNode[]> = {
   'MMU Vanilla Plantation': [
     {
       nodeId: 1, label: 'ESP32-01', zone: 'Zone A', status: 'Online',
+      temperature: [
+        { id: 'T1', value: 27.6, unit: '°C', status: 'good' },
+        { id: 'T2', value: 28.3, unit: '°C', status: 'good' },
+      ],
       humidity: [
         { id: 'H1', value: 66.9, unit: '%', status: 'good' },
         { id: 'H2', value: 63.4, unit: '%', status: 'good' },
@@ -256,6 +315,10 @@ const MOCK_DATA: Record<string, SensorNode[]> = {
     },
     {
       nodeId: 2, label: 'ESP32-02', zone: 'Zone B', status: 'Online',
+      temperature: [
+        { id: 'T1', value: 31.8, unit: '°C', status: 'good' },
+        { id: 'T2', value: 32.4, unit: '°C', status: 'good' },
+      ],
       humidity: [
         { id: 'H1', value: 70.5, unit: '%', status: 'good' },
         { id: 'H2', value: 74.2, unit: '%', status: 'good' },
@@ -270,6 +333,10 @@ const MOCK_DATA: Record<string, SensorNode[]> = {
     },
     {
       nodeId: 3, label: 'ESP32-03', zone: 'Zone C', status: 'Online',
+      temperature: [
+        { id: 'T1', value: 29.1, unit: '°C', status: 'good' },
+        { id: 'T2', value: 30.5, unit: '°C', status: 'good' },
+      ],
       humidity: [
         { id: 'H1', value: 62.3, unit: '%', status: 'good' },
         { id: 'H2', value: 58.9, unit: '%', status: 'good' },
@@ -284,6 +351,10 @@ const MOCK_DATA: Record<string, SensorNode[]> = {
     },
     {
       nodeId: 4, label: 'ESP32-04', zone: 'Zone D', status: 'Online',
+      temperature: [
+        { id: 'T1', value: 33.2, unit: '°C', status: 'good' },
+        { id: 'T2', value: 34.6, unit: '°C', status: 'good' },
+      ],
       humidity: [
         { id: 'H1', value: 75.8, unit: '%', status: 'good' },
         { id: 'H2', value: 71.3, unit: '%', status: 'good' },
@@ -298,6 +369,10 @@ const MOCK_DATA: Record<string, SensorNode[]> = {
     },
     {
       nodeId: 5, label: 'ESP32-05', zone: 'Zone E', status: 'Alert',
+      temperature: [
+        { id: 'T1', value: 42.1, unit: '°C', status: 'alert' },
+        { id: 'T2', value: 41.7, unit: '°C', status: 'alert' },
+      ],
       humidity: [
         { id: 'H1', value: 25.4, unit: '%', status: 'alert' },
         { id: 'H2', value: 22.1, unit: '%', status: 'alert' },
@@ -312,6 +387,10 @@ const MOCK_DATA: Record<string, SensorNode[]> = {
     },
     {
       nodeId: 6, label: 'ESP32-06', zone: 'Zone F', status: 'Online',
+      temperature: [
+        { id: 'T1', value: 28.8, unit: '°C', status: 'good' },
+        { id: 'T2', value: 29.5, unit: '°C', status: 'good' },
+      ],
       humidity: [
         { id: 'H1', value: 68.7, unit: '%', status: 'good' },
         { id: 'H2', value: 64.5, unit: '%', status: 'good' },
@@ -362,6 +441,8 @@ function mapRawToNode(row: RawReading, index: number): SensorNode {
   const mins = Math.floor((Date.now() - new Date(row.created_at).getTime()) / 60000);
   const offline = mins > OFFLINE_THRESHOLD_MINUTES;
 
+  const t1  = row.temp_1 ?? 0;
+  const t2  = row.temp_2 ?? 0;
   const h1  = row.hum_1  ?? 0;
   const h2  = row.hum_2  ?? 0;
   const sm1 = row.soil_1 ?? 0;
@@ -369,6 +450,10 @@ function mapRawToNode(row: RawReading, index: number): SensorNode {
   const sm3 = row.soil_3 ?? 0;
   const sm4 = row.soil_4 ?? 0;
 
+  const temperature: SensorReading[] = [
+    { id: 'T1', value: t1, unit: '°C', status: offline ? 'alert' : getTemperatureStatus(t1) },
+    { id: 'T2', value: t2, unit: '°C', status: offline ? 'alert' : getTemperatureStatus(t2) },
+  ];
   const humidity: SensorReading[] = [
     { id: 'H1', value: h1, unit: '%', status: offline ? 'alert' : getHumidityStatus(h1) },
     { id: 'H2', value: h2, unit: '%', status: offline ? 'alert' : getHumidityStatus(h2) },
@@ -380,7 +465,7 @@ function mapRawToNode(row: RawReading, index: number): SensorNode {
     { id: 'SM4', value: sm4, unit: '%', status: offline ? 'alert' : getSoilStatus(sm4) },
   ];
 
-  const worst = [...humidity, ...soilMoisture].reduce<SensorStatus>((w, s) => {
+  const worst = [...temperature, ...humidity, ...soilMoisture].reduce<SensorStatus>((w, s) => {
     if (s.status === 'alert') return 'alert';
     if (s.status === 'warning' && w !== 'alert') return 'warning';
     return w;
@@ -396,6 +481,7 @@ function mapRawToNode(row: RawReading, index: number): SensorNode {
     label:  `ESP32-0${index + 1}`,
     zone:   row.zone ?? ZONE_LABELS[index],
     status,
+    temperature,
     humidity,
     soilMoisture,
     lastUpdated: formatLastUpdated(row.created_at),
@@ -409,6 +495,10 @@ function makeOfflineNode(index: number): SensorNode {
     label:  `ESP32-0${index + 1}`,
     zone:   ZONE_LABELS[index],
     status: 'Offline',
+    temperature:  [
+      { id: 'T1', value: 0, unit: '°C', status: 'alert' },
+      { id: 'T2', value: 0, unit: '°C', status: 'alert' },
+    ],
     humidity:     [
       { id: 'H1', value: 0, unit: '%', status: 'alert' },
       { id: 'H2', value: 0, unit: '%', status: 'alert' },
@@ -535,8 +625,19 @@ const FarmMap: React.FC<FarmMapProps> = ({ nodes, landName }) => {
       const sm = node.soilMoisture[hotspot.dataIdx];
       return { value: sm?.value ?? 0, unit: '%', status: sm?.status ?? 'alert' as SensorStatus };
     }
+    // DHT hotspots (T1/T2) — display temperature; chip colour driven by worst of temp+humidity
+    const t = node.temperature[hotspot.dataIdx];
     const h = node.humidity[hotspot.dataIdx];
-    return { value: h?.value ?? 0, unit: '%', status: h?.status ?? 'alert' as SensorStatus };
+    const worstStatus: SensorStatus =
+      t?.status === 'alert' || h?.status === 'alert' ? 'alert'
+      : t?.status === 'warning' || h?.status === 'warning' ? 'warning'
+      : 'good';
+    return {
+      value: t?.value ?? 0,
+      unit: '°C',
+      status: worstStatus,
+      humidity: h,
+    };
   };
 
   const handleHotspotEnter = (e: React.MouseEvent, hotspot: SensorHotspot) => {
@@ -632,7 +733,7 @@ const FarmMap: React.FC<FarmMapProps> = ({ nodes, landName }) => {
                     onMouseLeave={() => setActiveTooltip(null)}
                   >
                     <span className="sat-hs-lbl">{hs.label}</span>
-                    <span className="sat-hs-val">{value === 0 ? '—' : `${value}%`}</span>
+                    <span className="sat-hs-val">{value === 0 ? '—' : `${value}${hs.type === 'dht' ? '°' : '%'}`}</span>
                   </div>
                 );
               })}
@@ -642,12 +743,15 @@ const FarmMap: React.FC<FarmMapProps> = ({ nodes, landName }) => {
           {/* Per-sensor tooltip (rendered outside the transformed div) */}
           {activeTooltip && (() => {
             const { hotspot: hs, node, relX, relY } = activeTooltip;
-            const { value, status } = getSensorData(hs, node);
+            const sensorData = getSensorData(hs, node);
+            const { value, unit, status } = sensorData;
             const col = statusColor[status];
             const isSoil = hs.type === 'soil';
+            const humidityReading = !isSoil ? sensorData.humidity : null;
+            const humCol = humidityReading ? statusColor[humidityReading.status] : col;
             const sLabel = isSoil
               ? `Soil Moisture ${hs.dataIdx + 1} (${hs.label})`
-              : `DHT22 Humidity ${hs.dataIdx + 1} (${hs.label})`;
+              : `DHT22 Sensor ${hs.dataIdx + 1} (${hs.label})`;
             return (
               <div className="sat-tooltip" style={{ left: relX, top: relY }}>
                 <div className="sat-tt-header">
@@ -655,13 +759,21 @@ const FarmMap: React.FC<FarmMapProps> = ({ nodes, landName }) => {
                   <span className={`sat-tt-status sat-tt-status--${node.status.toLowerCase()}`}>{node.status}</span>
                 </div>
                 <div className="sat-tt-zone">Zone {ZONE_NAMES[hs.zoneIdx]} · {node.label} · {landName}</div>
-                <div className="sat-tt-section">{isSoil ? '🌱' : '💧'} {sLabel}</div>
+                <div className="sat-tt-section">{isSoil ? '🌱' : '🌡️'} {sLabel}</div>
                 <div className="sat-tt-row">
-                  <span>Reading</span>
+                  <span>{isSoil ? 'Soil Moisture' : 'Temperature'}</span>
                   <span style={{ color: col, fontWeight: 700, fontSize: '1rem' }}>
-                    {value === 0 ? 'N/A' : `${value}%`}
+                    {value === 0 ? 'N/A' : `${value}${unit}`}
                   </span>
                 </div>
+                {!isSoil && humidityReading && (
+                  <div className="sat-tt-row">
+                    <span>Humidity</span>
+                    <span style={{ color: humCol, fontWeight: 700, fontSize: '1rem' }}>
+                      {humidityReading.value === 0 ? 'N/A' : `${humidityReading.value}%`}
+                    </span>
+                  </div>
+                )}
                 <div className="sat-tt-row">
                   <span>Status</span>
                   <span style={{ color: col, textTransform: 'capitalize' }}>{status}</span>
@@ -757,9 +869,9 @@ const TabularView: React.FC<TabularViewProps> = ({ nodes, landName, isLive }) =>
   const now = new Date().toLocaleTimeString('en-MY', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
   const soilCount = nodes[0]?.soilMoisture.length ?? 3;
 
-  const Badge: React.FC<{ status: SensorStatus; value: number }> = ({ status, value }) => (
+  const Badge: React.FC<{ status: SensorStatus; value: number; unit?: string }> = ({ status, value, unit = '%' }) => (
     <span className={`tbl-badge tbl-badge--${status}`}>
-      {value === 0 ? '—' : `${value}%`}
+      {value === 0 ? '—' : `${value}${unit}`}
     </span>
   );
 
@@ -767,7 +879,7 @@ const TabularView: React.FC<TabularViewProps> = ({ nodes, landName, isLive }) =>
     <div className="tbl-container">
       <div className="tbl-header-row">
         <div>
-          <h3 className="tbl-title">📡 Sensor Readings — {landName}</h3>
+          <h3 className="tbl-title">📡Sensor Readings  ------  {landName}</h3>
           <p className="tbl-subtitle">ESP32 Node Network · {nodes.length} Nodes · Last refreshed {now}</p>
         </div>
         <div className={`tbl-live-badge${isLive ? '' : ' tbl-live-badge--demo'}`}>
@@ -780,18 +892,18 @@ const TabularView: React.FC<TabularViewProps> = ({ nodes, landName, isLive }) =>
         <table className="tbl-table">
           <thead>
             <tr>
-              <th>Node</th>
-              <th>Zone</th>
+              <th rowSpan={2}>Node</th>
+              <th rowSpan={2}>Zone</th>
+              <th colSpan={2}>🌡️ Temperature (°C)</th>
               <th colSpan={2}>💧 Humidity (%)</th>
               <th colSpan={soilCount}>🌱 Soil Moisture (%)</th>
-              <th>Status</th>
-              <th>Last Updated</th>
+              <th rowSpan={2}>Status</th>
+              <th rowSpan={2}>Last Updated</th>
             </tr>
             <tr className="tbl-sub-header">
-              <th /><th />
+              <th>T1</th><th>T2</th>
               <th>H1</th><th>H2</th>
               {nodes[0]?.soilMoisture.map(s => <th key={s.id}>{s.id}</th>)}
-              <th /><th />
             </tr>
           </thead>
           <tbody>
@@ -804,11 +916,14 @@ const TabularView: React.FC<TabularViewProps> = ({ nodes, landName, isLive }) =>
                   </div>
                 </td>
                 <td><span className="tbl-zone">{node.zone}</span></td>
+                {node.temperature.map(t => (
+                  <td key={t.id}><Badge status={t.status} value={t.value} unit="°C" /></td>
+                ))}
                 {node.humidity.map(h => (
-                  <td key={h.id}><Badge status={h.status} value={h.value} /></td>
+                  <td key={h.id}><Badge status={h.status} value={h.value} unit="%" /></td>
                 ))}
                 {node.soilMoisture.map(s => (
-                  <td key={s.id}><Badge status={s.status} value={s.value} /></td>
+                  <td key={s.id}><Badge status={s.status} value={s.value} unit="%" /></td>
                 ))}
                 <td>
                   <span
@@ -833,7 +948,7 @@ const TabularView: React.FC<TabularViewProps> = ({ nodes, landName, isLive }) =>
         <span className="tbl-key-item tbl-key-item--warning">● Warning</span>
         <span className="tbl-key-item tbl-key-item--alert">● Alert / Offline</span>
         <span className="tbl-key-sep">·</span>
-        <span className="tbl-key-desc">Humidity: Good 50–80% · Soil Moisture: Good 35–65%</span>
+        <span className="tbl-key-desc">Temp: Good 22–35°C · Humidity: Good 50–80% · Soil Moisture: Good 35–65%</span>
       </div>
     </div>
   );
