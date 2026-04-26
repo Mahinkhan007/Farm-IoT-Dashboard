@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './LoginPage.css';
-import { supabase } from "../lib/supabaseClient"
+import { supabase } from "../lib/supabaseClient";
+import { useLanguage } from '../context/LanguageContext';
+
 
 
 interface LoginPageProps {
@@ -8,6 +10,7 @@ interface LoginPageProps {
 }
 
 const LoginPage: React.FC<LoginPageProps> = ({ onLogin: _onLogin }) => {
+  const { lang, toggleLang, t } = useLanguage();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -68,7 +71,7 @@ const handleLogin = async () => {
     resize();
     window.addEventListener('resize', resize);
 
-    let t = 0;
+    let tick = 0;
 
     const draw = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -81,7 +84,7 @@ const handleLogin = async () => {
         const y = (canvas.height / 12) * row + 40;
         ctx.moveTo(0, y);
         for (let x = 0; x < canvas.width; x += 4) {
-          const wave = Math.sin(x * 0.01 + t + row * 0.5) * 18 + Math.sin(x * 0.005 + t * 0.7) * 10;
+          const wave = Math.sin(x * 0.01 + tick + row * 0.5) * 18 + Math.sin(x * 0.005 + tick * 0.7) * 10;
           ctx.lineTo(x, y + wave);
         }
         ctx.stroke();
@@ -89,15 +92,15 @@ const handleLogin = async () => {
 
       // Floating dots
       for (let i = 0; i < 30; i++) {
-        const x = ((i * 137.5 + t * 20) % canvas.width);
-        const y = (Math.sin(i * 0.8 + t * 0.5) * 80 + canvas.height / 2 + i * 22) % canvas.height;
+        const x = ((i * 137.5 + tick * 20) % canvas.width);
+        const y = (Math.sin(i * 0.8 + tick * 0.5) * 80 + canvas.height / 2 + i * 22) % canvas.height;
         ctx.beginPath();
         ctx.arc(x, y, 1.5, 0, Math.PI * 2);
         ctx.fillStyle = `rgba(0, 82, 165, 0.12)`;
         ctx.fill();
       }
 
-      t += 0.008;
+      tick += 0.008;
       animFrameRef.current = requestAnimationFrame(draw);
     };
 
@@ -136,6 +139,13 @@ const handleLogin = async () => {
       <header className="lp-header">
         <img src="/mmu_logo.png" alt="MMU Logo" className="lp-logo-mmu" />
         <img src="/ict_logo.jpg" alt="ICT Virtual Organisation of ASEAN" className="lp-logo-ict" />
+        <button
+          className="lp-lang-btn"
+          onClick={toggleLang}
+          title={lang === 'ms' ? 'Switch to English' : 'Tukar ke Bahasa Malaysia'}
+        >
+          {lang === 'ms' ? 'ENG' : 'MY'}
+        </button>
       </header>
 
       {/* Main content */}
@@ -150,7 +160,7 @@ const handleLogin = async () => {
               <span className="lp-title-farm"> Farm</span>
             </h1>
             <p className="lp-subtitle">
-              PROGRAM PENYELIDIKAN TRANSLASIONAL
+              {t('programTitle')}
             </p>
             <p className="lp-description">
              Sustainable Energy Solutions for Enhancing Societal Wellbeing and Resilient Future of Rural Communities <br></br>
@@ -162,7 +172,7 @@ On
 <p className="lp-description">
 AI-Driven Smart Horticulture for Climate Sensitive Plant using Soil Analysis and Image Processing: A Tropical Perspective <br></br>
 </p>
-<p className="lp-description2">Ketua Penyelidik (IPT): Dr. Lee It Ee </p>
+<p className="lp-description2">{t('piResearcher')}</p>
             
 
             <div className="lp-stats">
@@ -188,7 +198,7 @@ AI-Driven Smart Horticulture for Climate Sensitive Plant using Soil Analysis and
             <div className="lp-bee-glow" />
             <img src="/mmu_bee.jpg" alt="MMU Bee Mascot - Smart Farmer" className="lp-bee" />
             <div className="lp-bee-hat">👒</div>
-            <div className="lp-bee-speech">Selamat datang,<br/>petani pintar! 🌾</div>
+            <div className="lp-bee-speech">{t('beeSpeech').split('\n').map((line, i) => <span key={i}>{line}{i === 0 && <br/>}</span>)}</div>
           </div>
         </section>
 
@@ -198,8 +208,8 @@ AI-Driven Smart Horticulture for Climate Sensitive Plant using Soil Analysis and
             <div className="lp-card-accent" />
             <div className="lp-card-inner">
               <div className="lp-card-icon">🔐</div>
-              <h2 className="lp-card-title">Log Masuk</h2>
-              <p className="lp-card-sub">Akses selamat ke papan pemuka ladang</p>
+              <h2 className="lp-card-title">{t('cardTitle')}</h2>
+              <p className="lp-card-sub">{t('cardSub')}</p>
 
               {error && (
                 <div className="lp-error">
@@ -212,7 +222,7 @@ AI-Driven Smart Horticulture for Climate Sensitive Plant using Soil Analysis and
   handleLogin()
 }}>
                 <div className="lp-field">
-                  <label className="lp-label" htmlFor="email">Emel</label>
+                  <label className="lp-label" htmlFor="email">{t('emailLabel')}</label>
                   <div className="lp-input-wrap">
                     <span className="lp-input-icon">✉️</span>
                     <input
@@ -228,7 +238,7 @@ AI-Driven Smart Horticulture for Climate Sensitive Plant using Soil Analysis and
                 </div>
 
                 <div className="lp-field">
-                  <label className="lp-label" htmlFor="password">Kata Laluan</label>
+                  <label className="lp-label" htmlFor="password">{t('passwordLabel')}</label>
                   <div className="lp-input-wrap">
                     <span className="lp-input-icon">🔒</span>
                     <input
@@ -255,10 +265,10 @@ AI-Driven Smart Horticulture for Climate Sensitive Plant using Soil Analysis and
                   {isLoading ? (
                     <span className="lp-spinner-wrap">
                       <span className="lp-spinner" />
-                      <span>Mengesahkan...</span>
+                      <span>{t('verifying')}</span>
                     </span>
                   ) : (
-                    <span>Masuk ke Sistem 🌱</span>
+                    <span>{t('loginBtn')}</span>
                   )}
                 </button>
                 {error && <p>{error}</p>}
@@ -272,7 +282,7 @@ AI-Driven Smart Horticulture for Climate Sensitive Plant using Soil Analysis and
 
       {/* Footer */}
       <footer className="lp-footer">
-        <p className="lp-footer-label">Dengan kolaborasi:</p>
+        <p className="lp-footer-label">{t('withCollab')}</p>
         <div className="lp-footer-logos">
           <img src="/kpm_logo.png" alt="Kementerian Pendidikan Malaysia" className="lp-footer-logo" />
           <img src="/jpt_logo.png" alt="JPT" className="lp-footer-logo lp-footer-logo--dark" />

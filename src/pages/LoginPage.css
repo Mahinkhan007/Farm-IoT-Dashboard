@@ -86,6 +86,25 @@
   box-shadow: 0 2px 20px rgba(0, 82, 165, 0.1);
 }
 
+.lp-lang-btn {
+  padding: 8px 16px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #fff;
+  background: var(--mmu-blue);
+  border: 1.5px solid rgba(0, 82, 165, 0.3);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.25s;
+  letter-spacing: 0.04em;
+  flex-shrink: 0;
+}
+.lp-lang-btn:hover {
+  background: #003d7a;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 82, 165, 0.3);
+}
+
 .lp-logo-mmu {
   height: 54px;
   object-fit: contain;

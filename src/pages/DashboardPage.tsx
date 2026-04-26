@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import './DashboardPage.css';
 import { supabase } from '../lib/supabaseClient';
+import { useLanguage } from '../context/LanguageContext';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -957,6 +958,7 @@ const TabularView: React.FC<TabularViewProps> = ({ nodes, landName, isLive }) =>
 // ─── Main Dashboard ───────────────────────────────────────────────────────────
 
 const DashboardPage: React.FC = () => {
+  const { lang, toggleLang, t } = useLanguage();
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
   const [selectedLand, setSelectedLand] = useState<string>('Batang Kali');
@@ -1149,7 +1151,7 @@ const DashboardPage: React.FC = () => {
     return (
       <div className="db-loading">
         <div className="db-loading-spinner" />
-        <p>Memuatkan papan pemuka...</p>
+        <p>{t('loadingDashboard')}</p>
       </div>
     );
   }
@@ -1180,8 +1182,15 @@ const DashboardPage: React.FC = () => {
             </span>
             <span className="db-user-email">{profile?.email}</span>
           </div>
+          <button
+            className="db-lang-btn"
+            onClick={toggleLang}
+            title={lang === 'ms' ? 'Switch to English' : 'Tukar ke Bahasa Malaysia'}
+          >
+            {lang === 'ms' ? 'ENG' : 'MY'}
+          </button>
           <button className="db-logout-btn" onClick={handleLogout}>
-            🚪 Log Keluar
+            {t('logoutBtn')}
           </button>
         </div>
       </header>
@@ -1193,12 +1202,12 @@ const DashboardPage: React.FC = () => {
         <div className="db-welcome">
           <div>
             <h2 className="db-welcome-title">
-              Selamat Datang{profile?.role === 'admin' ? ', Admin' : ''} 👋
+              {t('welcomeTitle')}{profile?.role === 'admin' ? ', Admin' : ''} 👋
             </h2>
             <p className="db-welcome-time">{currentTime}</p>
           </div>
           <div className="db-welcome-badges">
-            <span className="db-welcome-badge">🌿 3 Ladang Aktif</span>
+            <span className="db-welcome-badge">{t('activeFarms')}</span>
             <span className="db-welcome-badge">📡 {nodes.length} ESP32 Nodes</span>
             {dataSource === 'live'
               ? <span className="db-welcome-badge db-welcome-badge--live">🟢 Live · {lastFetched}</span>
@@ -1211,7 +1220,7 @@ const DashboardPage: React.FC = () => {
         <div className="db-controls">
           {/* Land selector */}
           <div className="db-selector-wrap">
-            <label className="db-selector-label">🗺️ Pilih Ladang</label>
+            <label className="db-selector-label">{t('selectFarm')}</label>
             <select
               className="db-selector"
               value={selectedLand}
@@ -1287,8 +1296,8 @@ const DashboardPage: React.FC = () => {
           {availableLands.length === 0 && profile?.role !== 'admin' ? (
             <div className="db-no-access">
               <div className="db-no-access-icon">🔒</div>
-              <h3>Tiada Akses Ladang</h3>
-              <p>Akaun anda belum diberikan akses ke mana-mana ladang. Sila hubungi admin.</p>
+              <h3>{t('noAccessTitle')}</h3>
+              <p>{t('noAccessDesc')}</p>
             </div>
           ) : activeView === 'tabular' ? (
             <TabularView nodes={nodes} landName={selectedLand} isLive={dataSource === 'live'} />
@@ -1300,7 +1309,7 @@ const DashboardPage: React.FC = () => {
 
       {/* ── Footer ── */}
       <footer className="lp-footer">
-        <p className="lp-footer-label">Dengan kolaborasi:</p>
+        <p className="lp-footer-label">{t('withCollab')}</p>
         <div className="lp-footer-logos">
           <img src="/kpm_logo.png" alt="Kementerian Pendidikan Malaysia" className="lp-footer-logo" />
           <img src="/jpt_logo.png" alt="JPT" className="lp-footer-logo lp-footer-logo--dark" />
@@ -1317,4 +1326,4 @@ const DashboardPage: React.FC = () => {
   );
 };
 
-export default DashboardPage;
+export default DashboardPage

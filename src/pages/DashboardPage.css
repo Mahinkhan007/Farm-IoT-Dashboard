@@ -197,6 +197,25 @@
   box-shadow: 0 4px 12px rgba(0, 82, 165, 0.25);
 }
 
+.db-lang-btn {
+  padding: 8px 14px;
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #fff;
+  background: var(--mmu-blue);
+  border: 1.5px solid rgba(255, 255, 255, 0.25);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.25s;
+  letter-spacing: 0.04em;
+}
+.db-lang-btn:hover {
+  background: #003d7a;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 82, 165, 0.35);
+}
+
 /* ── Main ────────────────────────────────────────────────── */
 .db-main {
   flex: 1;
